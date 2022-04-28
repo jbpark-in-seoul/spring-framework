@@ -1,5 +1,7 @@
 package tutorial.core.springframework;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import tutorial.core.springframework.member.Grade;
 import tutorial.core.springframework.member.Member;
 import tutorial.core.springframework.member.MemberService;
@@ -16,9 +18,16 @@ import tutorial.core.springframework.member.MemberService;
 public class MemberApp {
 
     public static void main(String[] args) {
-        AppConfig appConfig = new AppConfig();
-        MemberService memberService = appConfig.memberService();
+
+        // #JAVA 주입
+        //AppConfig appConfig = new AppConfig();
+        //MemberService memberService = appConfig.memberService();
         //MemberService memberService = new MemberServiceImpl();
+
+        // #DI컨테이너 (=IoC 컨테이너)
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+
         Member memberA = new Member(1L, "memberA", Grade.VIP);
         memberService.join(memberA);
 
